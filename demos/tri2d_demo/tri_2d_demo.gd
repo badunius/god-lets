@@ -31,7 +31,7 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	var w = tri.weight(point).clamp(Vector3.ZERO, Vector3.ONE)
+	var w = tri.weight(point)
 	var color = Color(w.x, w.y, w.z)
 	draw_tri(tri.a, tri.b, tri.c, Color.WHITE, color)
 	draw_tri(tri.a, tri.b, point, Color.WHITE)
@@ -55,20 +55,8 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 	pass
 
-func draw_tri(a: Vector2, b: Vector2, c: Vector2, stroke: Color, fill: Color = Color.TRANSPARENT) -> void:
-	var pts = PackedVector2Array([a, b, c, a])
+func draw_tri(point_a: Vector2, point_b: Vector2, point_c: Vector2, stroke: Color, fill: Color = Color.TRANSPARENT) -> void:
+	var pts = PackedVector2Array([point_a, point_b, point_c, point_a])
 	draw_colored_polygon(pts, fill)
 	draw_polyline(pts, stroke, 0.5, true)
-	pass
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	pass
-
-
-func on_handle_hover(id: int) -> void:
-	pass
-
-
-func on_handle_leave(id: int) -> void:
 	pass

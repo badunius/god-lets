@@ -16,7 +16,10 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, size, color, hover, 1.0, true)
+	if hover:
+		draw_circle(Vector2.ZERO, size, color, true, -1.0, true)
+	else:
+		draw_circle(Vector2.ZERO, size, color, false, 1.0, true)
 	pass
 
 
@@ -42,7 +45,7 @@ func set_hover(value: bool) -> void:
 	pass
 
 
-func on_input(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func on_input(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		dragged = event.pressed
 	pass
