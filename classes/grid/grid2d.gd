@@ -2,7 +2,7 @@ class_name Grid2D
 extends RefCounted
 
 
-
+## Dictionary<id:int, Vertex2D>
 var vx: Dictionary = {}
 
 
