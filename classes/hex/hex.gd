@@ -59,8 +59,8 @@ static func distance(a: Vector3i, b: Vector3i) -> int:
 	return max(abs(vec.x), abs(vec.y), abs(vec.z))
 
 
-## Assuming the circle on a hexonal grid is a hexagon consisted of hexagonal cells
-## that are no further from the center th
+## Assuming the circle on a hexonal grid is a hexagon itself consisted of hexagonal cells
+## that are no further from the `center` than the `radius`, returs the list of hexes making this circle
 static func cube_circle(center: Vector3i, radius: int) -> Array[Vector3i]:
 	var res: Array[Vector3i] = []
 	var N = radius
@@ -73,6 +73,8 @@ static func cube_circle(center: Vector3i, radius: int) -> Array[Vector3i]:
 	return res
 
 
+## Assuming the ring on a hexonal grid is a hexagon itself consisted of hexagonal cells
+## that are at the `radius` distance from the `center`, returs the list of hexes making this ring
 static func cube_ring(center: Vector3i, radius: int) -> Array[Vector3i]:
 	var res: Array[Vector3i] = []
 	var hex = center + CUBE_DIRECTIONS[4] * radius
@@ -83,6 +85,25 @@ static func cube_ring(center: Vector3i, radius: int) -> Array[Vector3i]:
 	return res
 
 
+## Builds a continious line from point A to point B including both points
+static func cube_line(a: Vector3i, b: Vector3i) -> Array[Vector3i]:
+	var res: Array[Vector3i] = []
+	var l = distance(a, b)
+	
+	if l == 0:
+		return [a]
+	
+	var f = 1.0 / l
+	
+	for i in l + 1:
+		res.push_back(cube_round(Vector3(a) + Vector3(b - a) * i * f))
+	
+	return res
+
+
+## Converts cube-coordinates to orthogonal coordinates
+## Tuned to work with unit-size pointy-top hexexagonal grid
+## (distance between centers == inscribed circle diameter == 1.0)
 static func cube_to_pixel(cube: Vector3i) -> Vector2:
 	var res = Vector2.ZERO
 	res.x = (1 * cube.x  +  1./2 * cube.y)
@@ -90,6 +111,9 @@ static func cube_to_pixel(cube: Vector3i) -> Vector2:
 	return res
 
 
+## Converts orthogonal coordinates to cube-coordinates
+## Tuned to work with unit-size pointy-top hexexagonal grid
+## (distance between centers == inscribed circle diameter == 1.0)
 static func pixel_to_cube(pixel: Vector2) -> Vector3i:
 	var q = (1. * pixel.x  +  -sqrt(3)/3. * pixel.y)
 	var r = (0. * pixel.x  +  2. * sqrt(3)/3. * pixel.y)
