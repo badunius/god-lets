@@ -50,9 +50,9 @@ static func delaunay(points: PackedVector2Array) -> Array[Tri2D]:
 	var tx = Geometry2D.triangulate_delaunay(points)
 	for t in range(0, len(tx), 3):
 		res.push_back(Tri2D.new([
-			points[t + 0],
-			points[t + 1],
-			points[t + 2],
+			points[tx[t + 0]],
+			points[tx[t + 1]],
+			points[tx[t + 2]],
 		]))
 	
 	return res
